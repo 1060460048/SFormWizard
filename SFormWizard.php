@@ -135,10 +135,12 @@ class SFormWizard extends CWidget
 {
 	public $selector;
 	public $jsAfterStepShown;
+
 	public $historyEnabled = 'false';
+	public $formPluginEnabled = 'false';
 	public $validationEnabled = 'false';
 	public $validationOptions = 'undefined';
-	public $formPluginEnabled = 'false';
+
 	public $formOptions = '{ reset: "true"}, success: function(data) { alert("success"); }';
 	public $linkClass = '.link';
 	public $submitStepClass = '.submit_step';
@@ -184,27 +186,27 @@ class SFormWizard extends CWidget
 
 		$cs = Yii::app()->clientScript;
 		$cs->registerCoreScript('jquery.ui');
-		$cs->registerCoreScript('bbq');
+		if ($this->historyEnabled)
+			$cs->registerCoreScript('bbq');
 
 		// js dependencies
-		if (defined('YII_DEBUG') && YII_DEBUG) {
-			$cs->registerScriptFile($assets.'/js/jquery.form.js', CClientScript::POS_END);
-			$cs->registerScriptFile($assets.'/js/jquery.validate.js', CClientScript::POS_END);
-			$cs->registerScriptFile($assets.'/js/jquery.form.wizard.js', CClientScript::POS_END);
-		} else {
-			$cs->registerScriptFile($assets.'/js/jquery.form.min.js', CClientScript::POS_END);
-			$cs->registerScriptFile($assets.'/js/jquery.validate.min.js', CClientScript::POS_END);
-			$cs->registerScriptFile($assets.'/js/jquery.form.wizard.min.js', CClientScript::POS_END);
-		}
+		$ext = defined('YII_DEBUG') && YII_DEBUG ? 'js' : 'min.js';
+		if ($this->formPluginEnabled)
+			$cs->registerScriptFile($assets.'/js/jquery.form.'.$ext, CClientScript::POS_END);
+		if ($this->validationEnabled)
+			$cs->registerScriptFile($assets.'/js/jquery.validate.'.$ext, CClientScript::POS_END);
+
+		$cs->registerScriptFile($assets.'/js/jquery.form.wizard.'.$ext, CClientScript::POS_END);
 
 		$cs->registerScript('initformwizard','
 		$(function(){
 			$("'.$this->selector.'").formwizard({
 				historyEnabled: '.$this->historyEnabled.',
-				validationEnabled: '.$this->validationEnabled.',
-				validationOptions: '.$this->validationOptions.',
 				formPluginEnabled: '.$this->formPluginEnabled.',
+				validationEnabled: '.$this->validationEnabled.',
+
 				formOptions: '.$this->formOptions.',
+				validationOptions: '.$this->validationOptions.',
 
 				linkClass: '.CJavascript::encode($this->linkClass).',
 				submitStepClass: '.CJavascript::encode($this->submitStepClass).',
