@@ -195,7 +195,7 @@ class SFormWizard extends CWidget
 			$cs->registerScriptFile($assets.'/js/jquery.form.min.js', CClientScript::POS_END);
 			$cs->registerScriptFile($assets.'/js/jquery.validate.min.js', CClientScript::POS_END);
 			$cs->registerScriptFile($assets.'/js/jquery.ba-bbq.min.js', CClientScript::POS_END);
-			$cs->registerScriptFile($assets.'/js/jquery.form.wizard-min.js', CClientScript::POS_END);
+			$cs->registerScriptFile($assets.'/js/jquery.form.wizard.min.js', CClientScript::POS_END);
 		}
 
 		$cs->registerScript('initformwizard','
