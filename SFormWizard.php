@@ -184,17 +184,16 @@ class SFormWizard extends CWidget
 
 		$cs = Yii::app()->clientScript;
 		$cs->registerCoreScript('jquery.ui');
+		$cs->registerCoreScript('bbq');
 
 		// js dependencies
 		if (defined('YII_DEBUG') && YII_DEBUG) {
 			$cs->registerScriptFile($assets.'/js/jquery.form.js', CClientScript::POS_END);
 			$cs->registerScriptFile($assets.'/js/jquery.validate.js', CClientScript::POS_END);
-			$cs->registerScriptFile($assets.'/js/jquery.ba-bbq.js', CClientScript::POS_END);
 			$cs->registerScriptFile($assets.'/js/jquery.form.wizard.js', CClientScript::POS_END);
 		} else {
 			$cs->registerScriptFile($assets.'/js/jquery.form.min.js', CClientScript::POS_END);
 			$cs->registerScriptFile($assets.'/js/jquery.validate.min.js', CClientScript::POS_END);
-			$cs->registerScriptFile($assets.'/js/jquery.ba-bbq.min.js', CClientScript::POS_END);
 			$cs->registerScriptFile($assets.'/js/jquery.form.wizard.min.js', CClientScript::POS_END);
 		}
 
