@@ -145,7 +145,7 @@ class SFormWizard extends CWidget
 	public $validationOptions = 'undefined';
 
 	public $linkClass = '.link';
-	public $submitStepClass = '.submit_step';
+	public $submitStepClass = 'submit_step';
 	public $back = ':reset';
 	public $next = ':submit';
 	public $textSubmit = 'Submit';

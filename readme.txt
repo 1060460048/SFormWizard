@@ -41,13 +41,13 @@ All options and their default values (see SFormWizard.php for description of eac
  <?php 			
 	$this->widget('ext.sformwizard.SFormWizard',array(
 		'selector'=>"#post-form",
-			'historyEnabled' =>"false",
-			'validationEnabled' => "false",
+			'historyEnabled' => false,
+			'validationEnabled' => false,
 			'validationOptions' => "undefined",
-			'formPluginEnabled' => "false",
+			'formPluginEnabled' => false,
 			'formOptions' => '{ reset: "true",}, success: function(data) { alert("success"); }',
 			'linkClass' =>".link",
-			'submitStepClass' =>".submit_step",
+			'submitStepClass' =>"submit_step",
 			'back' => ":reset",
 			'next' => ":submit",
 			'textSubmit' => "Submit",
@@ -59,10 +59,10 @@ All options and their default values (see SFormWizard.php for description of eac
 			'inDuration' => 400,
 			'outDuration' => 400,
 			'easing' => "swing",
-			'focusFirstInput' => "false",
-			'disableInputFields' => "true",
-			'disableUIStyles' => "false",
-			'jsAfterStepShown'=>	'',
+			'focusFirstInput' => false,
+			'disableInputFields' => true,
+			'disableUIStyles' => false,
+			'jsAfterStepShown'=> '',
 
 		));
 ?>
@@ -109,10 +109,10 @@ And then the widgetcall:
 					
 		$this->widget('ext.sformwizard.SFormWizard',array(
 			'selector'=>"#post-form",
-			'historyEnabled' =>"true",
-			'validationEnabled' => "true",
+			'historyEnabled' => true,
+			'validationEnabled' => true,
 			'validationOptions' => "undefined",
-			'formPluginEnabled' => "true",
+			'formPluginEnabled' => true,
 			'formOptions' => '{
 						success: function(data){$("#stepmessage").fadeTo(500,1,function(){ $("#stepmessage").html(data); })},
 						beforeSubmit: function(data){
@@ -122,7 +122,7 @@ And then the widgetcall:
 						resetForm: true
 				 	}	',
 			'linkClass' =>".link",
-			'submitStepClass' =>".submit_step",
+			'submitStepClass' => "submit_step",
 			'back' => ":reset",
 			'next' => ":submit",
 			'textSubmit' => "Submit",
@@ -134,10 +134,10 @@ And then the widgetcall:
 			'inDuration' => 400,
 			'outDuration' => 400,
 			'easing' => "swing",
-			'focusFirstInput' => "true",
-			'disableInputFields' => "true",
-			'disableUIStyles' => "false",
-			'jsAfterStepShown'=>	'
+			'focusFirstInput' => true,
+			'disableInputFields' => true,
+			'disableUIStyles' => false,
+			'jsAfterStepShown'=> '
 				/*		Available in data (data.steps ,data.settings etc):
 						isBackNavigation - boolean
 						settings - options object containing the options set for the wizard
