@@ -137,9 +137,9 @@ class SFormWizard extends CWidget
 	public $selector;
 	public $jsAfterStepShown;
 
-	public $historyEnabled = 'false';
-	public $formPluginEnabled = 'false';
-	public $validationEnabled = 'false';
+	public $historyEnabled = false;
+	public $formPluginEnabled = false;
+	public $validationEnabled = false;
 
 	public $formOptions = '{ reset: "true"}, success: function(data) { alert("success"); }';
 	public $validationOptions = 'undefined';
@@ -157,9 +157,9 @@ class SFormWizard extends CWidget
 	public $inDuration = 400;
 	public $outDuration = 400;
 	public $easing = 'swing';
-	public $focusFirstInput = 'false';
-	public $disableInputFields = 'true';
-	public $disableUIStyles = 'true';
+	public $focusFirstInput = false;
+	public $disableInputFields = true;
+	public $disableUIStyles = true;
 
 	/**
 	 * Publishes the required assets
@@ -172,6 +172,15 @@ class SFormWizard extends CWidget
 	 * Run the widget.
 	 */
 	public function run() {
+
+		// check booleans
+		$this->historyEnabled = self::parseBool($this->historyEnabled);
+		$this->formPluginEnabled = self::parseBool($this->formPluginEnabled);
+		$this->validationEnabled = self::parseBool($this->validationEnabled);
+		$this->focusFirstInput = self::parseBool($this->focusFirstInput);
+		$this->disableInputFields = self::parseBool($this->disableInputFields);
+		$this->disableUIStyles = self::parseBool($this->disableUIStyles);
+
 		$this->publishAssets();
 	}
 
@@ -203,9 +212,9 @@ class SFormWizard extends CWidget
 		$cs->registerScript('initformwizard','
 		$(function(){
 			$("'.$this->selector.'").formwizard({
-				historyEnabled: '.$this->historyEnabled.',
-				formPluginEnabled: '.$this->formPluginEnabled.',
-				validationEnabled: '.$this->validationEnabled.',
+				historyEnabled: '.($this->historyEnabled ? 'true':'false').',
+				formPluginEnabled: '.($this->formPluginEnabled ? 'true':'false').',
+				validationEnabled: '.($this->validationEnabled ? 'true':'false').',
 
 				formOptions: '.$this->formOptions.',
 				validationOptions: '.$this->validationOptions.',
@@ -217,15 +226,15 @@ class SFormWizard extends CWidget
 				textSubmit: '.CJavascript::encode($this->textSubmit).',
 				textNext: '.CJavascript::encode($this->textNext).',
 				textBack: '.CJavascript::encode($this->textBack).',
-				remoteAjax: '.CJavascript::encode($this->remoteAjax).',
+				remoteAjax: '.$this->remoteAjax.',
 				inAnimation: '.$this->inAnimation.',
 				outAnimation: '.$this->outAnimation.',
 				inDuration: '.CJavascript::encode($this->inDuration).',
 				outDuration: '.CJavascript::encode($this->outDuration).',
 				easing: '.CJavascript::encode($this->easing).',
-				focusFirstInput: '. $this->focusFirstInput.',
-				disableInputFields: '.$this->disableInputFields.',
-				disableUIStyles: '.$this->disableUIStyles.',
+				focusFirstInput: '.($this->focusFirstInput ? 'true':'false').',
+				disableInputFields: '.($this->disableInputFields ? 'true':'false').',
+				disableUIStyles: '.($this->disableUIStyles ? 'true':'false').',
 			});
 
 			$("#stepmessage").append($("'.$this->selector.'").formwizard("state").firstStep);
@@ -235,6 +244,24 @@ class SFormWizard extends CWidget
 			});
 
 		});', CClientScript::POS_END);
+	}
+
+	/**
+	 * Allow boolean options as text or numeric
+	 */
+	protected static function parseBool($data)
+	{
+		if (is_bool($data) || is_numeric($data))
+			return $data;
+
+		switch (strtolower($data)) {
+			case 'false':
+				return false;
+			case 'true':
+				return true;
+			default:
+				return $data;
+		}
 	}
 
 }
