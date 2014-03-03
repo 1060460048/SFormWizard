@@ -162,13 +162,6 @@ class SFormWizard extends CWidget
 	public $disableUIStyles = true;
 
 	/**
-	 * Publishes the required assets
-	 */
-	public function init() {
-		parent::init();
-	}
-
-	/**
 	 * Run the widget.
 	 */
 	public function run() {
@@ -185,22 +178,22 @@ class SFormWizard extends CWidget
 	}
 
 	/**
-	 * Publises and registers the required CSS and Javascript
+	 * Publish and register the required assets
 	 * @throws CHttpException if the assets folder was not found
 	 */
-	public function publishAssets() {
+	protected function publishAssets() {
 		$assetsDir = dirname(__FILE__).'/assets';
 		if (!is_dir($assetsDir)) {
 			throw new CHttpException(500, __CLASS__ . ' - Error: Couldn\'t find assets to publish.');
 		}
 		$assets = Yii::app()->assetManager->publish($assetsDir);
 
+		// js dependencies
 		$cs = Yii::app()->clientScript;
 		$cs->registerCoreScript('jquery.ui');
 		if ($this->historyEnabled)
 			$cs->registerCoreScript('bbq');
 
-		// js dependencies
 		$ext = defined('YII_DEBUG') && YII_DEBUG ? 'js' : 'min.js';
 		if ($this->formPluginEnabled)
 			$cs->registerScriptFile($assets.'/js/jquery.form.'.$ext, CClientScript::POS_END);
